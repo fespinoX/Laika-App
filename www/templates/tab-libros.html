@@ -1,0 +1,39 @@
+<ion-view view-title="Libros">
+  <!--<ion-nav-buttons side="secondary">
+    <a class="button" href="#/tab/libros/nuevo">Nuevo</a>
+  </ion-nav-buttons>-->
+
+  <ion-content id="librosLaika">
+    <div class="padding">
+      <h2>Libros</h2>
+      <p>Estos son todos los libros que leyeron los astronautas. Leíste alguno?</p>
+      <p>También podés agregar uno vos!</p>
+      <a class="button button-block button-nuevo" href="#/tab/libros/nuevo">Nuevo</a>
+    </div>
+
+    <ion-list>
+
+      <ion-item ng-repeat="lib in libros track by $index" href="#/tab/libros/{{ lib.IDLIBRO }}">
+        <h3>{{ lib.TITULO }}</h3>
+        <p><span class="subtiLibro">Autor:</span> {{ lib.AUTOR }}</p>
+        <p><span class="subtiLibro">Género:</span> {{ lib.GENERO }}</p>
+        <p><span class="subtiLibro">Año:</span> {{ lib.ANIO }}</p>
+
+        <p><span class="subtiLibro">Resumen:</span> {{ lib.DESCRIPCION }}</p>
+        <h4 class="titulinComentario">Reviews</h4>
+          <ul class="listaComentarios">
+
+            <li ng-repeat="comentarillo in lib.COMENTARIO">
+              <p><span class="userComentario">{{ comentarillo.NOMBRE }}</span> dijo:</p> <p>{{ comentarillo.COMENTARIO }}</p>
+            </li>
+
+          </ul>
+
+          <a href="#/tab/libros/{{ lib.IDLIBRO }}/nuevareview" class="button button-block button-balanced reviewBoton">Dejar review</a>
+
+
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-view>

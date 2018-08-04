@@ -1,0 +1,35 @@
+<ion-view view-title="Editar">
+  <ion-content id="libroeditarLaika">
+    <h2 class="padding">Editar libro</h2>
+
+    <form class="list" ng-submit="grabar(libro)">
+
+      <label class="item item-input">
+        <input type="text" ng-model="libro.TITULO" placeholder="Nombre">
+      </label>
+
+      <label class="item item-input">
+        <input type="text" ng-model="libro.ANIO" placeholder="Año">
+      </label>
+
+      <label class="item item-input item-select">
+        <span class="input-label">Género: </span>
+        <!--<input type="text" ng-model="libro.FKGENEROS" placeholder="ID del género">-->
+        <select ng-model="libro.FKGENEROS" ng-options="genero.IDGENERO as genero.GENERO for genero in generos"></select>
+      </label>
+
+      <label class="item item-input item-select">
+        <span class="input-label">Autor: </span>
+        <!--<input type="text" ng-model="libro.FKAUTORES" placeholder="ID del autor">-->
+        <select ng-model="libro.FKAUTORES" ng-options="autor.IDAUTOR as autor.AUTOR for autor in autores"></select>
+      </label>
+
+      <label class="item item-input">
+        <textarea  ng-model="libro.DESCRIPCION"placeholder="Descripción"></textarea>
+      </label>
+
+      <button class="button button-block button-positive">Guardar</button>
+
+    </form>
+  </ion-content>
+</ion-view>

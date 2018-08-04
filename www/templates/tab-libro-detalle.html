@@ -1,0 +1,18 @@
+<ion-view view-title="Detalle">
+  <ion-content id="librodetalleLaika">
+
+    <h2>{{ libro.TITULO }}</h2>
+    <p>Año: {{ libro.ANIO }}</p>
+    <p>Autor: {{ libro.AUTOR }}</p>
+    <p>Género: {{ libro.GENERO }}</p>
+
+    <h3>Resumen</h3>
+    <p>{{ libro.DESCRIPCION }}</p>
+
+    <hr>
+
+    <a ng-href="#/tab/libros/{{ libro.IDLIBRO }}/editar" class="button button-block button-balanced">Editar</a>
+    <a class="button button-block button-assertive" ng-click="eliminar(libro.IDLIBRO)">Eliminar</a>
+
+  </ion-content>
+</ion-view>

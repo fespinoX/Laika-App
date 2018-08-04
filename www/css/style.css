@@ -1,0 +1,492 @@
+/* FUENTES */
+
+@font-face {
+    font-family: 'astronautregular';
+    src: url('fuentes/astronau-webfont.woff2') format('woff2'),
+    url('fuentes/astronau-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'bebas_neueregular';
+    src: url('fuentes/bebasneue-webfont.woff2') format('woff2'),
+    url('fuentes/bebasneue-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'source_sans_proregular';
+    src: url('fuentes/sourcesanspro-regular-webfont.woff2') format('woff2'),
+    url('fuentes/sourcesanspro-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* COLORES */
+
+/*
+
+MINT:
+color: #62DDBD;
+color: #46CEAD;
+color: #35BB9B;
+
+LAVENDER
+color: #B3A5EF;
+color: #AC92EA;
+color: #967ADA;
+
+GRAPEFRUIT
+color: #F76D82;
+color: #EC5564;
+color: #D94452;
+
+SUNFLOWER
+color: #F5BA45;
+
+
+ */
+
+/* COSAS GENERALES */
+
+
+.button{
+    background-color: #DA4452;
+    font-family: 'bebas_neueregular';
+    color: #fff;
+}
+
+.bar.bar-stable .title{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.5em;
+}
+
+.bar-stable .button{
+    color: #fff;
+    background-color: #35BB9B;
+    font-variant: all-small-caps;
+    font-size: 1em;
+    font-weight: 600;
+    border: none;
+}
+
+.back-button span,
+.back-button i{
+    color: #D94452;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+}
+
+/* ALERTAS */
+
+.popup{
+    background-color: #000!important;
+    color: #fff!important;
+    font-family: 'bebas_neueregular';
+    font-size: 1.2em;
+}
+
+.popup-title{
+    font-family: 'astronautregular';
+    font-variant: all-small-caps;
+    color: #fff!important;
+    font-size: 2.2em;
+}
+
+.button.button-positive{
+    background-color: #35BB9B!important;
+    font-family: 'bebas_neueregular';
+    color: #fff!important;
+}
+
+.popup-head {
+    border-bottom: none!important;
+}
+
+.popup-body {
+    text-align: center;
+}
+
+/* NAV BAR */
+
+.tab-nav{
+    background-color: #000;
+}
+
+ion-tabs.tabs-color-active-positive .tab-item{
+    color: #fff;
+}
+
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active,
+ion-tabs.tabs-color-active-positive .tab-item.active,
+ion-tabs.tabs-color-active-positive .tab-item.activated{
+    color: #35BB9B;
+}
+
+
+/* HOME */
+
+.bar.bar-stable{
+    background-color: #000;
+}
+
+#homeLaika .bar.bar-stable{
+    display: none;
+}
+
+#homeLaika{
+    height: 100%;
+    background: url("imgs/fondo_luna.jpg");
+    background-size: contain;
+}
+
+#homeLaika h2{
+    font-family: 'astronautregular';
+    text-align: center;
+    font-size: 8em;
+    color: #fff;
+    margin-top: 40%;
+}
+
+#homeLaika p{
+    font-family: 'bebas_neueregular';
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    color: #fff;
+    background-color: #35BB9B;
+}
+
+
+/* LOGIN */
+
+#loginLaika{
+    background-color: #000;
+}
+
+#loginLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+    padding: 10px 20px;
+}
+
+#loginLaika form{
+    margin: auto;
+    width: 90%;
+}
+
+#loginLaika form label,
+#loginLaika input{
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 5px;
+    font-family: 'bebas_neueregular';
+}
+
+#loginLaika button{
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    color: #fff;
+}
+
+#loginLaika form button{
+    background-color: #35BB9B;
+}
+
+#loginLaika .button-nuevo{
+    margin: auto;
+    width: 90%;
+    background-color: #967ADA!important;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+}
+
+
+/* LIBROS */
+
+#librosLaika{
+    background-color: #000;
+}
+
+#librosLaika h2{
+    font-family: 'bebas_neueregular';
+    font-size: 3em;
+    color: #fff;
+}
+
+#librosLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+.button-nuevo{
+    font-family: 'bebas_neueregular';
+    background-color: #967ADA;
+    color: #fff;
+}
+
+#librosLaika .item-complex a{
+    background-color: #000;
+    color: #fff;
+}
+
+#librosLaika .item-complex a p{
+    font-size: 1.1em;
+    line-height: 1.2em;
+}
+
+#librosLaika .item-complex a h3{
+    font-size: 1.8em;
+    line-height: 1.6em;
+    color: #967ADA;
+    font-family: 'bebas_neueregular';
+}
+
+.listaComentarios li{
+    margin-bottom: 15px;
+}
+
+.reviewBoton{
+    background-color: #35BB9B!important;
+    font-family: 'bebas_neueregular';
+    color: #fff;
+    width: 110px;
+}
+
+.subtiLibro{
+    color: #967ADA;
+}
+
+
+
+/* LIBRO - DETALLE */
+
+.item {
+    border-color: #967ADA!important;
+}
+
+#librodetalleLaika{
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+#librodetalleLaika h2{
+    font-family: 'bebas_neueregular';
+    font-size: 3em;
+    color: #fff;
+}
+
+#librodetalleLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+#librodetalleLaika a{
+    font-family: 'bebas_neueregular';
+    color: #fff;
+    font-size: 1.3em;
+}
+
+#librodetalleLaika h3{
+    font-size: 1.4em;
+    line-height: 1.5em;
+    color: #35BB9B;
+    font-family: 'bebas_neueregular';
+}
+
+
+#librodetalleLaika a:nth-of-type(1){
+    background-color: #35BB9B;
+    color: #fff;
+}
+
+#librodetalleLaika a:nth-of-type(2),
+.button-malo{
+    background-color: #D94452;
+    color: #fff;
+}
+
+.titulinComentario{
+    color: #F5BA45!important;
+    font-size: 1.3em!important;
+    line-height: 1.5em!important;
+    font-family: 'bebas_neueregular';
+    margin-top: 15px!important;
+}
+
+.userComentario{
+    color: #35BB9B;
+    font-size: 1.3em!important;
+}
+
+
+/* LIBRO - EDITAR */
+
+#libroeditarLaika{
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+#libroeditarLaika h2{
+    font-family: 'bebas_neueregular';
+    font-size: 3em;
+    color: #fff;
+}
+
+#libroeditarLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+#libroeditarLaika h3{
+    font-size: 1.4em;
+    line-height: 1.5em;
+    color: #35BB9B;
+    font-family: 'bebas_neueregular';
+}
+
+#libroeditarLaika form{
+    margin: auto;
+    width: 90%;
+}
+
+#libroeditarLaika form label,
+#libroeditarLaika form input,
+#libroeditarLaika form span,
+#libroeditarLaika form textarea{
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 5px;
+    font-family: 'bebas_neueregular';
+    font-size: 1.1em;
+}
+
+#libroeditarLaika form textarea{
+    height: 160px;
+    resize: none;
+}
+
+#libroeditarLaika form button{
+    background-color: #35BB9B;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    color: #fff;
+    background-color: #35BB9B;
+}
+
+
+/* LIBRO - NUEVO */
+
+#libronuevoLaika{
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+#libronuevoLaika h2{
+    font-family: 'bebas_neueregular';
+    font-size: 3em;
+    color: #fff;
+}
+
+#libronuevoLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+#libronuevoLaika h3{
+    font-size: 1.4em;
+    line-height: 1.5em;
+    color: #35BB9B;
+    font-family: 'bebas_neueregular';
+}
+
+#libronuevoLaika form{
+    margin: auto;
+    width: 90%;
+}
+
+#libronuevoLaika form label,
+#libronuevoLaika form input,
+#libronuevoLaika form span,
+#libronuevoLaika form textarea{
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 5px;
+    font-family: 'bebas_neueregular';
+    font-size: 1.1em;
+}
+
+#libronuevoLaika form textarea{
+    height: 160px;
+    resize: none;
+}
+
+#libronuevoLaika form button{
+    background-color: #35BB9B;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    color: #fff;
+    background-color: #35BB9B;
+}
+
+.item-select select{
+    background: transparent;
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.1em;
+}
+
+/* PERFIL */
+
+#perfilLaika{
+    background-color: #000;
+    padding: 10px 20px;
+}
+
+#perfilLaika h2{
+    font-family: 'bebas_neueregular';
+    font-size: 3em;
+    color: #fff;
+}
+
+#perfilLaika p{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+#perfilLaika ul li{
+    color: #fff;
+    font-family: 'bebas_neueregular';
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+#perfilLaika button{
+    font-family: 'bebas_neueregular';
+    color: #fff;
+    font-size: 1.3em;
+    background-color: #D94452;
+}
+
+#perfilLaika h3{
+    font-size: 1.4em;
+    line-height: 1.5em;
+    color: #35BB9B;
+    font-family: 'bebas_neueregular';
+}
+

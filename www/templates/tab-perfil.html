@@ -1,0 +1,16 @@
+<ion-view view-title="Astronauta">
+  <ion-content id="perfilLaika">
+
+    <p>Hola astronauta! <br> Estos son tus datos personales:</p>
+
+      <ul>
+        <li>Usuario: {{ user.user }}</li>
+        <li>Nombre: {{ user.nombre }}</li>
+        <!--<li>Clave: *SECRETO*</li>-->
+      </ul>
+
+    <!--<a class="button button-block button-positive" ng-href="#/tab/perfil/editar">Editar Perfil</a>-->
+    <button class="button button-block button-malo" ng-click="logout()">Log out</button>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,15 @@
+<ion-view view-title="Review">
+  <ion-content id="libronuevoLaika">
+    <p>Dejá tu review de:</p>
+    <h2>{{ libro.TITULO }}</h2>
+
+    <form class="list" ng-submit="agregarReview(comentario)">
+
+      <label class="item item-input">
+        <textarea  ng-model="comentario.COMENTARIO" placeholder="Qué te pareció el libro?"></textarea>
+      </label>
+
+      <input class="button button-block button-positive" type="submit" value="Dejar review">
+    </form>
+  </ion-content>
+</ion-view>
