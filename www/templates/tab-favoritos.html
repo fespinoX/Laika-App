@@ -1,0 +1,18 @@
+<ion-view view-title="Mis Favoritos">
+  <ion-content id="FavoritosLaika">
+
+  	<ul class="listaUsuarios" ng-if="favoritos.length > 0">
+		<li ng-repeat="favorito in favoritos">
+	    	<a class="item-content" href="#/tab/libros/{{ favorito.IDLIBRO }}">
+	    		<h3>{{ favorito.TITULO }}</h3>
+	    	</a>
+		</li>
+	</ul>
+
+	<div ng-if="favoritos.length == 0">
+		<p>No tenés libros favoritos. Agregá alguno</p>
+		<a href="#/tab/libros" class="button button-block">Ver libros</a>
+	</div>
+
+  </ion-content>
+</ion-view>

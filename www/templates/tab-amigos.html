@@ -1,0 +1,16 @@
+<ion-view view-title="Astronauta">
+  <ion-content id="perfilLaika">
+
+    <ul class="listaAmigos">
+
+        <li ng-repeat="amigo in amigos">
+          <p>
+            <a href="#/tab/perfil/{{ amigo.IDUSUARIO }}" class="userComentario">{{ amigo.NOMBRE }}</a>
+            <span class="icon ion-trash"></span>
+          </p>
+        </li>
+
+      </ul>
+
+  </ion-content>
+</ion-view>

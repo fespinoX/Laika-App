@@ -1,16 +1,51 @@
 <ion-view view-title="Astronauta">
   <ion-content id="perfilLaika">
 
-    <p>Hola astronauta! <br> Estos son tus datos personales:</p>
+    <p ng-if="!user.COMENTARIOS">Hola astronauta! <br> Estos son tus datos personales:</p>
 
       <ul>
         <li>Usuario: {{ user.user }}</li>
         <li>Nombre: {{ user.nombre }}</li>
-        <!--<li>Clave: *SECRETO*</li>-->
       </ul>
 
+    <div ng-if="!user.COMENTARIOS" class="botonera-flex">
+      <a class="button" href="#/tab/perfil/amigos">Mis amigos</a>
+      <a class="button" href="#/tab/perfil/favoritos">Mis Favoritos</a>
+      <a class="button" href="#/tab/orbita">Astronautas en órbita</a>
+    </div>
+
     <!--<a class="button button-block button-positive" ng-href="#/tab/perfil/editar">Editar Perfil</a>-->
-    <button class="button button-block button-malo" ng-click="logout()">Log out</button>
+    <button class="button button-block button-malo" ng-click="logout()" ng-if="!user.COMENTARIOS">Log out</button>
+
+    <div ng-if="!user.COMENTARIOS">
+
+      <p>Notificaciones</p>
+
+      <ul class="listaNotificaciones">
+
+        <li ng-repeat="notificacion in notificaciones">
+          <p><span class="icon ion-alert-circled"></span> {{ notificacion.NOTIFICACION }}</p>
+        </li>
+
+      </ul>
+
+    </div>    
+
+    <a class="button button-block button-positive" ng-click="agregarAmigos(user.id)" ng-if="!user.is_friend">Agregar a mis amigos</a>
+    <a class="button button-block button-positive" ng-click="quitarAmigos(user.id)" ng-if="user.is_friend">Quitar de mis amigos</a>
+
+    <div ng-if="user.COMENTARIOS">
+
+      <span>Comentarios de {{ user.nombre }}</span>
+
+      <ul class="listaComentarios">
+
+        <li ng-repeat="comentarillo in user.COMENTARIOS">
+          <p><a class="userComentario">{{ comentarillo.TITULO }}</a>:</p> <p>{{ comentarillo.COMENTARIO }}</p>
+        </li>
+
+      </ul>
+    </div>
 
   </ion-content>
 </ion-view>

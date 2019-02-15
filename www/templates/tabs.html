@@ -1,19 +1,18 @@
-<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-color-active-positive" ng-controller="tabController">
 
   <!-- Home Tab -->
-  <ion-tab title="Home" icon-off="ion-planet" icon-on="ion-planet" href="#/tab/home">
+  <ion-tab title="Home" icon-off="ion-planet" icon-on="ion-planet" ng-click="goTo('tab.home')" href="#/tab/home">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
   <!-- Libros Tab -->
-  <ion-tab title="Libros" icon-off="ion-ios-bookmarks" icon-on="ion-ios-bookmarks" href="#/tab/libros">
+  <ion-tab title="Libros" icon-off="ion-ios-bookmarks" icon-on="ion-ios-bookmarks" ng-click="goTo('tab.libros')" href="#/tab/libros">
     <ion-nav-view name="tab-libros"></ion-nav-view>
   </ion-tab>
 
   <!-- Perfil Tab -->
-  <ion-tab title="Astronauta" icon-off="ion-android-contact" icon-on="ion-android-contact" href="#/tab/perfil">
+  <ion-tab title="Astronauta" icon-off="ion-android-contact" icon-on="ion-android-contact" badge="notificaciones.length" ng-click="goTo('tab.perfil')" href="#/tab/perfil">
     <ion-nav-view name="tab-perfil"></ion-nav-view>
   </ion-tab>
-
 
 </ion-tabs>

@@ -57,5 +57,19 @@ class LibrosApiController
         $comentario = Libro::agregarReview($id);
     }
 
+    //agrega un comentario
+    public function agregarFav()
+    {
+        $fav = Libro::addFav();
+    }
+
+    //borra un libro
+    public function eliminarFav()
+    {
+        $id = Route::getParams()['id'];
+        $libros = Libro::deleteFav($id);
+        return $id;
+    }
+
 }
 

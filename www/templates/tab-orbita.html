@@ -1,0 +1,17 @@
+<ion-view view-title="Astronautas en orbita">
+  <ion-content id="orbitaLaika">
+
+    <ul class="listaUsuarios" ng-if="usuarios.length > 0">
+		<li ng-repeat="usuario in usuarios">
+		  	<a class="item-content" href="#/tab/perfil/{{ usuario.IDUSUARIO }}">
+	    		<h3>{{ usuario.NOMBRE }}</h3>
+	    	</a>
+		</li>
+	</ul>
+
+	<div ng-if="usuarios.length == 0">
+		<h1>El ping nunca volvio...estás solo. Respirá hondo.</h1>
+	</div>
+
+  </ion-content>
+</ion-view>

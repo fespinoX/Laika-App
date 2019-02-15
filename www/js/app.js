@@ -138,6 +138,58 @@ angular.module('LKLibros', ['ionic', 'LKLibros.controllers', 'LKLibros.services'
                 }
             })
 
+            .state('tab.amigos', {
+                url: '/perfil/amigos',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-amigos.html',
+                        controller: 'AmigosCtrl'
+                    }
+                }
+            })
+
+            .state('tab.favoritos', {
+                url: '/perfil/favoritos',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-favoritos.html',
+                        controller: 'FavoritosCtrl'
+                    }
+                }
+            })
+
+            .state('tab.perfil-detalle', {
+                url: '/perfil/:id',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-perfil.html',
+                        controller: 'PerfilCtrl'
+                    }
+                }
+            })
+
+            .state('tab.orbita', {
+                url: '/orbita',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-orbita.html',
+                        controller: 'OrbitaCtrl'
+                    }
+                }
+            })
+
             .state('usuario-nuevo', {
                 url: '/usuario-nuevo',
                 templateUrl: 'templates/tab-usuario-nuevo.html',

@@ -15,7 +15,7 @@ class Token
      * @param $id
      * @return \Lcobucci\JWT\Token
      */
-    public function generateToken($id)
+    public static function generateToken($id)
     {
         $signer = new Sha256();
         $secret = "cvbhsdifhefuiasghduha";
@@ -37,7 +37,7 @@ class Token
      * @param string $token
      * @return array|bool
      */
-    public function verifyToken($token)
+    public static function verifyToken($token)
     {
         if (!is_string($token)) {
             return false;

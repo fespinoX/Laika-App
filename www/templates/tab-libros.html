@@ -24,7 +24,7 @@
           <ul class="listaComentarios">
 
             <li ng-repeat="comentarillo in lib.COMENTARIO">
-              <p><span class="userComentario">{{ comentarillo.NOMBRE }}</span> dijo:</p> <p>{{ comentarillo.COMENTARIO }}</p>
+              <p><a class="userComentario" href="#/tab/perfil/{{ comentarillo.FKUSUARIOS }}">{{ comentarillo.NOMBRE }}</a> dijo:</p> <p>{{ comentarillo.COMENTARIO }}</p>
             </li>
 
           </ul>

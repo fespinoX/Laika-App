@@ -138,6 +138,58 @@ angular.module('LKLibros', ['ionic', 'LKLibros.controllers', 'LKLibros.services'
                 }
             })
 
+            .state('tab.amigos', {
+                url: '/perfil/amigos',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-amigos.html',
+                        controller: 'AmigosCtrl'
+                    }
+                }
+            })
+
+            .state('tab.favoritos', {
+                url: '/perfil/favoritos',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-favoritos.html',
+                        controller: 'FavoritosCtrl'
+                    }
+                }
+            })
+
+            .state('tab.perfil-detalle', {
+                url: '/perfil/:id',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-perfil.html',
+                        controller: 'PerfilCtrl'
+                    }
+                }
+            })
+
+            .state('tab.orbita', {
+                url: '/orbita',
+                data: {
+                    requireAuth: true
+                },
+                views: {
+                    'tab-perfil': {
+                        templateUrl: 'templates/tab-orbita.html',
+                        controller: 'OrbitaCtrl'
+                    }
+                }
+            })
+
             .state('usuario-nuevo', {
                 url: '/usuario-nuevo',
                 templateUrl: 'templates/tab-usuario-nuevo.html',
@@ -167,6 +219,29 @@ angular.module('LKLibros.controllers', [])
 
 angular.module('LKLibros.services', []);
 
+angular
+    .module('LKLibros.controllers')
+    .controller(
+        'AmigosCtrl',
+        [
+            '$scope',
+            'UsuarioService',
+            function($scope, UsuarioService) {
+                $scope.$on('$ionicView.enter', function() {
+                    cargarAmigos();
+                });
+
+
+                function cargarAmigos() {
+                    UsuarioService.getAmigos().then(
+                        function(response){
+                            $scope.amigos = response.data;
+                        }
+                    );
+                }
+            }
+        ]
+    );
 angular
     .module('LKLibros.controllers')
     .controller(
@@ -221,6 +296,29 @@ angular
 angular
     .module('LKLibros.controllers')
     .controller(
+        'FavoritosCtrl',
+        [
+            '$scope',
+            'UsuarioService',
+            function($scope, UsuarioService) {
+                $scope.$on('$ionicView.enter', function() {
+                    cargarLibros();
+                });
+
+
+                function cargarLibros() {
+                    UsuarioService.getFavs().then(
+                        function(response){
+                            $scope.favoritos = response.data;
+                        }
+                    );
+                }
+            }
+        ]
+    );
+angular
+    .module('LKLibros.controllers')
+    .controller(
         'HomeCtrl',
         function($scope) {
             // TODO: algo
@@ -246,6 +344,54 @@ angular
                         console.log("Uy! Hubo un error!", errorData);
                     }
                 );
+
+                $scope.agregarFavs = function() {
+
+                    var idLibro = $stateParams.id;
+
+                    LibroService.agregarFavorito(idLibro).then(function(rta) {
+
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.libro.is_fav = true;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
+
+                $scope.eliminarFavs = function() {
+
+                    var idLibro = $stateParams.id;
+
+                    LibroService.eliminarFavorito(idLibro).then(function(rta) {
+
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.libro.is_fav = false;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
 
                 $scope.eliminar = function (id) {
                     var popup = $ionicPopup.confirm({
@@ -475,21 +621,63 @@ angular
 angular
     .module('LKLibros.controllers')
     .controller(
+        'OrbitaCtrl',
+        [
+            '$scope',
+            'UsuarioService',
+            function($scope, UsuarioService) {
+                $scope.$on('$ionicView.enter', function() {
+                    cargarAstronautas();
+                });
+
+
+                function cargarAstronautas() {
+                    UsuarioService.getAstronautas().then(
+                        function(response){
+                            $scope.usuarios = response.data;
+                        }
+                    );
+                }
+            }
+        ]
+    );
+angular
+    .module('LKLibros.controllers')
+    .controller(
         'PerfilCtrl',
         [
             '$scope',
             '$state',
             'StorageService',
+            '$stateParams',
             '$ionicHistory',
             '$window',
             '$ionicPopup',
             'AuthService',
             'UsuarioService',
-            function($scope, $state, StorageService, $ionicHistory, $window, $ionicPopup, AuthService, UsuarioService) {
-
+            function($scope, $state, StorageService, $stateParams, $ionicHistory, $window, $ionicPopup, AuthService, UsuarioService) {
 
                 $scope.$on('$ionicView.enter', function() {
-                    $scope.user = StorageService.get('userData');
+                    if($stateParams.id){
+                        UsuarioService.getById($stateParams.id).then(
+                            function(response) {
+                                $scope.user = response.data;
+                            },
+                            function(errorData) {
+                                // Reject block
+                                console.log("Uy! Hubo un error!", errorData);
+                            }
+                        );
+                    } else {
+                        $scope.user = StorageService.get('userData');
+                        UsuarioService.getNotificaciones().then(
+                            function(response) {
+                                $scope.notificaciones = response.data;
+                            },
+                        );
+
+                        UsuarioService.readNotificaciones();
+                    }
                 });
 
                 /* logout */
@@ -518,10 +706,82 @@ angular
                     });
                 }
 
+                /* editar datos user */
+                $scope.agregarAmigos = function(id) {
+                    UsuarioService.agregarAmigos(id).then(function(rta) {
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.user.is_friend = true;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
+
+                /* editar datos user */
+                $scope.quitarAmigos = function(id) {
+                    UsuarioService.quitarAmigos(id).then(function(rta) {
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.user.is_friend = false;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
+
             }
         ]
     );
 
+angular
+    .module('LKLibros.controllers')
+    .controller(
+        'tabController',
+        [
+        	'$scope',
+        	'$state',
+        	'UsuarioService',
+	        function($scope,$state,UsuarioService) {
+
+	        	$scope.$on('$ionicView.enter', function() {
+                    UsuarioService.getNotificaciones().then(
+                    	function(response) {
+                            $scope.notificaciones = response.data;
+                            console.log(response.data);
+                        },
+                    );
+                });
+	            
+	        	$scope.goTo = function(args) {
+	        	    $state.go(args, {}, {
+	        	        reload: true,
+	        	        inherit: false,
+	        	        notify: true
+	        	    });
+	        	};
+
+	        }
+        ]
+    );
 angular
     .module('LKLibros.controllers')
     .controller(
@@ -699,7 +959,11 @@ angular.module('LKLibros.services')
              */
             this.getById = function(id) {
                 //return $http.get(API_SERVER + '/libro-detalle.php?id=' + id);
-                return $http.get(API_SERVER + "/public/libros/" + id);
+                return $http.get(API_SERVER + "/public/libros/" + id, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
             };
 
             /**
@@ -748,6 +1012,41 @@ angular.module('LKLibros.services')
 
                 //return $http.post(API_SERVER + "/comentario-crear.php?id=" + id, comentario, {
                 return $http.post(API_SERVER + "/public/libros/review/" + id, comentario, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Agregar libro a mis favoritos.
+             *
+             * @param {Number} id
+             * @returns {Promise}
+             */
+
+            this.agregarFavorito = function(id) {
+
+                data = {
+                    'id': id
+                }
+
+                return $http.post(API_SERVER + "/public/libros/favoritos", data, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Eliminar libro de mis favoritos.
+             *
+             * @param {Number} id
+             * @returns {Promise}
+             */
+
+            this.eliminarFavorito = function(id) {
+                return $http.delete(API_SERVER + "/public/libros/favoritos/" + id, {
                     'headers': {
                         'X-Token': AuthService.getToken()
                     }
@@ -829,7 +1128,8 @@ angular.module('LKLibros.services')
     .service('UsuarioService', [
         '$http',
         'API_SERVER',
-        function($http, API_SERVER) {
+        'AuthService',
+        function($http, API_SERVER,AuthService) {
             console.log('Creando el servicio de Usuarios');
 
             /**
@@ -843,6 +1143,129 @@ angular.module('LKLibros.services')
 
                 });
             };
+
+            /**
+             * Traer el detalle del usuario
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.getById = function(id) {
+                return $http.get(API_SERVER + "/public/astronautas/"+id, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Traer las notificaciones
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.getNotificaciones = function() {
+                return $http.get(API_SERVER + "/public/notificaciones", {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Traer las notificaciones
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.readNotificaciones = function(notificaciones) {
+                return $http.put(API_SERVER + "/public/notificaciones/read", {}, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };   
+
+            /**
+             * Trae los usuarios
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.getAstronautas = function() {
+                if(AuthService.isLogged()){
+                    return $http.get(API_SERVER + "/public/astronautas", {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+                } else {
+                    return $http.get(API_SERVER + "/public/astronautas");
+                }
+            };
+
+            /**
+             * Agrega un amigo
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.agregarAmigos = function(id) {
+
+                var data = {
+                    'id': id
+                }
+
+                return $http.post(API_SERVER + "/public/astronautas/agregar", data, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Quita un amigo
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.quitarAmigos = function(id) {
+
+                return $http.delete(API_SERVER + "/public/astronautas/eliminar/" + id, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Trae los amigos
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.getAmigos = function() {
+                return $http.get(API_SERVER + "/public/astronautas/amigos", {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Trae los favs
+             *
+             * @param string id
+             * @returns {Promise}
+             */
+            this.getFavs = function() {
+                return $http.get(API_SERVER + "/public/astronautas/favoritos", {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
 
 
             /**

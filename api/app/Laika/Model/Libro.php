@@ -3,6 +3,7 @@
 namespace Laika\Model;
 use Laika\Core\Route;
 use Laika\DB\DBConnection;
+use Laika\Model\Usuario;
 use Laika\Token\Token;
 
 class Libro
@@ -254,7 +255,6 @@ class Libro
         return $losLibros;
     }
 
-
     //crea un libro nuevo
     public static function create()
     {
@@ -275,7 +275,7 @@ class Libro
         $inputEntrada = file_get_contents('php://input');
         $postData = json_decode($inputEntrada, true);
 
-// Acá iría la validación ¯\_(ツ)_/¯
+        // Acá iría la validación ¯\_(ツ)_/¯
 
         $query = "INSERT INTO libros (FKGENEROS, FKAUTORES, TITULO, ANIO, DESCRIPCION)
           VALUES (:FKGENEROS, :FKAUTORES, :TITULO, :ANIO, :DESCRIPCION)";
@@ -325,7 +325,7 @@ class Libro
         $inputEntrada = file_get_contents('php://input');
         $putData = json_decode($inputEntrada, true);
 
-// Acá iría la validación ¯\_(ツ)_/¯
+        // Acá iría la validación ¯\_(ツ)_/¯
 
         $query = "UPDATE libros
            SET    FKGENEROS     = :FKGENEROS,
@@ -361,7 +361,6 @@ class Libro
             ]);
         }
     }
-
 
     //borra un libro
     public static function delete($id)
@@ -402,8 +401,6 @@ class Libro
                 ]
             ]);
         }
-
-
     }
 
     //levanta la info de un solo libro
@@ -437,16 +434,51 @@ class Libro
 
         // echo json_encode($stmt->fetch(\PDO::FETCH_ASSOC));
         $libroDetalle = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if(isset($_SERVER['HTTP_X_TOKEN'])){
+
+            $token = $_SERVER['HTTP_X_TOKEN'];
+            $idUsuario  = Token::verifyToken($token)['id'];
+
+            if (!Token::verifyToken($token)) {
+                echo json_encode([
+                    "success" => false,
+                    "msg" => 'Esta acción requiere autenticación.'
+                ]);
+                die;
+            }
+
+            // Chequeamos si el usuario lo tiene como favorito.
+            $query = "SELECT
+                FKLIBRO 
+            FROM usuario_has_libro
+            WHERE  
+              FKLIBRO = :idLibro AND FKUSUARIO = :idUsuario";
+
+
+            $stmt = $db->prepare($query);
+
+            $stmt->execute([
+                'idLibro' => $id,
+                'idUsuario' => $idUsuario
+            ]);
+
+            $existe = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if($existe){
+                $libroDetalle['is_fav'] = true;
+            }
+
+        }
+
         return $libroDetalle;
     }
-
 
     //crea un comentario
     public static function agregarReview($id)
     {
 
         $db = DBConnection::getConnection();
-
 
         $token = $_SERVER['HTTP_X_TOKEN'];
         $idUsuario  = Token::verifyToken($token)['id'];
@@ -464,7 +496,6 @@ class Libro
 
         // Acá iría la validación ¯\_(ツ)_/¯
 
-
         $query = "INSERT INTO comentarios (COMENTARIO, FECHA, FKUSUARIOS, FKLIBROS) 
           VALUES (:COMENTARIO, NOW(), :FKUSUARIOS, :FKLIBROS)";
 
@@ -477,6 +508,38 @@ class Libro
         ]);
 
         if ($exito) {
+
+            $query = "SELECT usuario_has_libro.FKUSUARIO, libros.titulo
+                FROM usuario_has_fav,usuario_has_libro
+                LEFT JOIN libros ON :id_libro = libros.IDLIBRO
+                WHERE FKLIBRO = :id_libro OR usuario_has_fav.FKUSUARIOFAV = :id_user";
+
+            $stmt = $db->prepare($query);
+            $stmt->execute([
+                'id_libro' => $id,
+                'id_user' => $idUsuario
+            ]);
+            $favs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            foreach ($favs as $notificacion) {  
+                $query = "INSERT INTO notificaciones (FKUSUARIO, FKLIBRO, NOTIFICACION)
+                  VALUES (:FKUSUARIO, :FKLIBRO,:NOTIFICACION)";
+
+                $stmt = $db->prepare($query);
+
+                $exito = $stmt->execute([
+                    'FKUSUARIO' => $idUsuario,
+                    'FKLIBRO'   => $id,
+                    'NOTIFICACION' => Usuario::detail($idUsuario)['nombre'].' ha dejado una review del libro "'.$notificacion['titulo'].'"'
+                ]);
+
+                if(!$exito){
+                    var_dump($stmt->errorInfo());
+                }
+            }
+        }
+
+        if($exito){
             echo json_encode([
                 'success' => true,
                 'msg' => 'Dejaste tu review!!'
@@ -490,9 +553,96 @@ class Libro
                 ]
             ]);
         }
-
-
     }
 
+    //crea un favorito
+    public static function addFav()
+    {
+        $db = DBConnection::getConnection();
+
+        $token = $_SERVER['HTTP_X_TOKEN'];
+        $idUsuario  = Token::verifyToken($token)['id'];
+
+        if (!Token::verifyToken($token)) {
+            echo json_encode([
+                "success" => false,
+                "msg" => 'Esta acción requiere autenticación.'
+            ]);
+            die;
+        }
+
+        $inputEntrada = file_get_contents('php://input');
+        $postData = json_decode($inputEntrada, true);
+
+        // Acá iría la validación ¯\_(ツ)_/¯
+
+        $query = "INSERT INTO usuario_has_libro (FKUSUARIO, FKLIBRO) 
+          VALUES (:FKUSUARIO, :FKLIBRO)";
+
+        $stmt = $db->prepare($query);
+
+        $exito = $stmt->execute([
+            'FKUSUARIO' => $idUsuario,
+            'FKLIBRO'   => $postData['id']
+        ]);
+
+        if ($exito) {
+            echo json_encode([
+                'success' => true,
+                'msg' => 'Agregado a tu lista!!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Hubo un error al intentar agregar un libro favorito',
+                'errors' => [
+                    'db' => 'Error de inserción en la base de datos.'
+                ]
+            ]);
+        }
+    }
+
+    //elimina un favorito
+    public static function deleteFav($id)
+    {
+        $db = DBConnection::getConnection();
+
+        $token = $_SERVER['HTTP_X_TOKEN'];
+        $idUsuario  = Token::verifyToken($token)['id'];
+
+        if (!Token::verifyToken($token)) {
+            echo json_encode([
+                "success" => false,
+                "msg" => 'Esta acción requiere autenticación.'
+            ]);
+            die;
+        }
+        // Acá iría la validación ¯\_(ツ)_/¯
+
+        $query = "DELETE FROM usuario_has_libro
+          WHERE FKLIBRO = :idLibro AND FKUSUARIO = :idUsuario";
+
+        $stmt = $db->prepare($query);
+
+        $exito = $stmt->execute([
+            'idLibro'   => $id,
+            'idUsuario' => $idUsuario
+        ]);
+
+        if ($stmt->rowCount()) {
+            echo json_encode([
+                'success' => true,
+                'msg' => 'Se quito el libro de tus favoritos'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'msg' => 'Hubo un error al intentar eliminar un libro favorito',
+                'errors' => [
+                    'db' => 'Error de inserción en la base de datos.'
+                ]
+            ]);
+        }
+    }
 
 }

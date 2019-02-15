@@ -2,6 +2,7 @@
   <ion-content id="librodetalleLaika">
 
     <h2>{{ libro.TITULO }}</h2>
+
     <p>Año: {{ libro.ANIO }}</p>
     <p>Autor: {{ libro.AUTOR }}</p>
     <p>Género: {{ libro.GENERO }}</p>
@@ -11,6 +12,8 @@
 
     <hr>
 
+    <a class="button button-block button-assertive" ng-if="libro.is_fav == true" ng-click="eliminarFavs(libro.IDLIBRO)">Quitar de mis favoritos</a>
+    <a class="button button-block button-assertive" ng-if="libro.is_fav != true" ng-click="agregarFavs(libro.IDLIBRO)">Agregar a mis favoritos</a>
     <a ng-href="#/tab/libros/{{ libro.IDLIBRO }}/editar" class="button button-block button-balanced">Editar</a>
     <a class="button button-block button-assertive" ng-click="eliminar(libro.IDLIBRO)">Eliminar</a>
 

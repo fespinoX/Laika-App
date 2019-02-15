@@ -19,6 +19,54 @@ angular
                     }
                 );
 
+                $scope.agregarFavs = function() {
+
+                    var idLibro = $stateParams.id;
+
+                    LibroService.agregarFavorito(idLibro).then(function(rta) {
+
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.libro.is_fav = true;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
+
+                $scope.eliminarFavs = function() {
+
+                    var idLibro = $stateParams.id;
+
+                    LibroService.eliminarFavorito(idLibro).then(function(rta) {
+
+                        var info = rta.data;
+
+                        if(info.success) {
+                            $scope.libro.is_fav = false;
+                            $ionicPopup.alert({
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        } else {
+                            $ionicPopup.alert({
+                                title: "Error",
+                                template: info.msg,
+                                okText: 'Ok'
+                            });
+                        }
+                    });
+                }
+
                 $scope.eliminar = function (id) {
                     var popup = $ionicPopup.confirm({
                         title: "Cuidado, astronauta!",

@@ -28,7 +28,11 @@ angular.module('LKLibros.services')
              */
             this.getById = function(id) {
                 //return $http.get(API_SERVER + '/libro-detalle.php?id=' + id);
-                return $http.get(API_SERVER + "/public/libros/" + id);
+                return $http.get(API_SERVER + "/public/libros/" + id, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
             };
 
             /**
@@ -77,6 +81,41 @@ angular.module('LKLibros.services')
 
                 //return $http.post(API_SERVER + "/comentario-crear.php?id=" + id, comentario, {
                 return $http.post(API_SERVER + "/public/libros/review/" + id, comentario, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Agregar libro a mis favoritos.
+             *
+             * @param {Number} id
+             * @returns {Promise}
+             */
+
+            this.agregarFavorito = function(id) {
+
+                data = {
+                    'id': id
+                }
+
+                return $http.post(API_SERVER + "/public/libros/favoritos", data, {
+                    'headers': {
+                        'X-Token': AuthService.getToken()
+                    }
+                });
+            };
+
+            /**
+             * Eliminar libro de mis favoritos.
+             *
+             * @param {Number} id
+             * @returns {Promise}
+             */
+
+            this.eliminarFavorito = function(id) {
+                return $http.delete(API_SERVER + "/public/libros/favoritos/" + id, {
                     'headers': {
                         'X-Token': AuthService.getToken()
                     }
